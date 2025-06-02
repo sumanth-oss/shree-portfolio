@@ -19,3 +19,7 @@
 body {
   font-family: 'Space Mono', monospace;
 }
+::selection {
+  background-color: #22c55e;
+  color: white;
+}
