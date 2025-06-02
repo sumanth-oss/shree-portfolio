@@ -43,62 +43,63 @@ const Portfolio = () => {
 
     sceneRef.current = { scene, camera, renderer };
 
-    // Create floating objects - BIGGER and MORE INTERACTIVE
+    // Create floating objects - smaller and more subtle
     const objects = [];
     const trails = [];
 
-    // Create different geometric shapes - LARGER SIZES
+    // Create different geometric shapes - smaller sizes
     for (let i = 0; i < 25; i++) {
       let geometry;
       const shapeType = Math.floor(Math.random() * 6);
 
       switch (shapeType) {
         case 0:
-          geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
+          geometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
           break;
         case 1:
-          geometry = new THREE.SphereGeometry(1.2, 12, 12);
+          geometry = new THREE.SphereGeometry(0.6, 12, 12);
           break;
         case 2:
-          geometry = new THREE.ConeGeometry(1.0, 2.0, 8);
+          geometry = new THREE.ConeGeometry(0.5, 1.0, 8);
           break;
         case 3:
-          geometry = new THREE.CylinderGeometry(0.8, 0.8, 2.0, 8);
+          geometry = new THREE.CylinderGeometry(0.4, 0.4, 1.0, 8);
           break;
         case 4:
-          geometry = new THREE.TorusGeometry(1.0, 0.4, 8, 16);
+          geometry = new THREE.TorusGeometry(0.5, 0.2, 8, 16);
           break;
         default:
-          geometry = new THREE.RingGeometry(0.5, 1.5, 8);
+          geometry = new THREE.RingGeometry(0.3, 0.8, 8);
       }
 
-      // Enhanced materials with glow effect
+      // Materials with reduced opacity
       const material = new THREE.MeshPhongMaterial({
         color: new THREE.Color().setHSL(Math.random() * 0.4 + 0.3, 0.9, 0.7),
         transparent: true,
-        opacity: 0.8,
+        opacity: 0.6,
         wireframe: true,
         emissive: new THREE.Color().setHSL(Math.random() * 0.4 + 0.3, 0.5, 0.1),
       });
 
       const mesh = new THREE.Mesh(geometry, material);
 
-      mesh.position.x = (Math.random() - 0.5) * 40;
-      mesh.position.y = (Math.random() - 0.5) * 40;
-      mesh.position.z = (Math.random() - 0.5) * 40;
+      // Reduced position range
+      mesh.position.x = (Math.random() - 0.5) * 20;
+      mesh.position.y = (Math.random() - 0.5) * 20;
+      mesh.position.z = (Math.random() - 0.5) * 20;
 
       mesh.userData = {
         originalX: mesh.position.x,
         originalY: mesh.position.y,
         originalZ: mesh.position.z,
         rotationSpeed: {
-          x: (Math.random() - 0.5) * 0.03,
-          y: (Math.random() - 0.5) * 0.03,
-          z: (Math.random() - 0.5) * 0.03,
+          x: (Math.random() - 0.5) * 0.02,
+          y: (Math.random() - 0.5) * 0.02,
+          z: (Math.random() - 0.5) * 0.02,
         },
-        floatSpeed: Math.random() * 0.015 + 0.01,
-        floatRange: Math.random() * 3 + 2,
-        mouseInfluence: Math.random() * 2 + 1,
+        floatSpeed: Math.random() * 0.01 + 0.005,
+        floatRange: Math.random() * 1.5 + 1,
+        mouseInfluence: Math.random() * 1 + 0.5,
         originalColor: mesh.material.color.clone(),
         originalEmissive: mesh.material.emissive.clone(),
       };
@@ -117,8 +118,8 @@ const Portfolio = () => {
       const trailMaterial = new THREE.LineBasicMaterial({
         color: mesh.material.color,
         transparent: true,
-        opacity: 0.3,
-        linewidth: 2,
+        opacity: 0.2,
+        linewidth: 1,
       });
 
       const trail = new THREE.Line(trailGeometry, trailMaterial);
@@ -126,27 +127,27 @@ const Portfolio = () => {
       trails.push({
         line: trail,
         positions: [],
-        maxLength: 10,
+        maxLength: 8,
       });
     }
 
-    // Enhanced Lighting with multiple colors
-    const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+    // Lighting with reduced intensity
+    const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
     scene.add(ambientLight);
 
-    const directionalLight1 = new THREE.DirectionalLight(0x00ff88, 1.2);
+    const directionalLight1 = new THREE.DirectionalLight(0x00ff88, 0.8);
     directionalLight1.position.set(10, 10, 10);
     scene.add(directionalLight1);
 
-    const directionalLight2 = new THREE.DirectionalLight(0x0088ff, 0.8);
+    const directionalLight2 = new THREE.DirectionalLight(0x0088ff, 0.6);
     directionalLight2.position.set(-10, -10, 5);
     scene.add(directionalLight2);
 
-    const directionalLight3 = new THREE.DirectionalLight(0xff0088, 0.6);
+    const directionalLight3 = new THREE.DirectionalLight(0xff0088, 0.4);
     directionalLight3.position.set(0, 10, -10);
     scene.add(directionalLight3);
 
-    // Enhanced particle system with multiple layers
+    // Particle system with smaller particles
     const particleSystems = [];
     for (let layer = 0; layer < 3; layer++) {
       const particleCount = 200;
@@ -154,13 +155,13 @@ const Portfolio = () => {
       const velocities = new Float32Array(particleCount * 3);
 
       for (let i = 0; i < particleCount * 3; i += 3) {
-        positions[i] = (Math.random() - 0.5) * 80;
-        positions[i + 1] = (Math.random() - 0.5) * 80;
-        positions[i + 2] = (Math.random() - 0.5) * 80;
+        positions[i] = (Math.random() - 0.5) * 40;
+        positions[i + 1] = (Math.random() - 0.5) * 40;
+        positions[i + 2] = (Math.random() - 0.5) * 40;
 
-        velocities[i] = (Math.random() - 0.5) * 0.02;
-        velocities[i + 1] = (Math.random() - 0.5) * 0.02;
-        velocities[i + 2] = (Math.random() - 0.5) * 0.02;
+        velocities[i] = (Math.random() - 0.5) * 0.01;
+        velocities[i + 1] = (Math.random() - 0.5) * 0.01;
+        velocities[i + 2] = (Math.random() - 0.5) * 0.01;
       }
 
       const particleGeometry = new THREE.BufferGeometry();
@@ -176,9 +177,9 @@ const Portfolio = () => {
       const colors = [0x00ff88, 0x0088ff, 0xff0088];
       const particleMaterial = new THREE.PointsMaterial({
         color: colors[layer],
-        size: 0.2 + layer * 0.1,
+        size: 0.1 + layer * 0.05,
         transparent: true,
-        opacity: 0.7 - layer * 0.1,
+        opacity: 0.5 - layer * 0.1,
         blending: THREE.AdditiveBlending,
       });
 
@@ -190,23 +191,23 @@ const Portfolio = () => {
       particleSystems.push(particleSystem);
     }
 
-    camera.position.z = 8;
+    camera.position.z = 15;
 
-    // Enhanced mouse movement handler with more responsiveness
+    // Mouse movement handler
     const handleMouseMove = (event) => {
       mouseRef.current.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouseRef.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
     };
 
-    // Mouse click handler for extra interaction
+    // Mouse click handler
     const handleMouseClick = (event) => {
       objects.forEach((object, index) => {
         const distance = Math.random();
         setTimeout(() => {
-          object.material.emissive.setHSL(Math.random(), 1, 0.5);
+          object.material.emissive.setHSL(Math.random(), 1, 0.3);
           setTimeout(() => {
             object.material.emissive.copy(object.userData.originalEmissive);
-          }, 500);
+          }, 300);
         }, index * 50);
       });
     };
@@ -214,35 +215,35 @@ const Portfolio = () => {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('click', handleMouseClick);
 
-    // Enhanced animation loop
+    // Animation loop
     const animate = () => {
       requestAnimationFrame(animate);
 
       const time = Date.now() * 0.001;
 
-      // Animate floating objects with ENHANCED mouse interaction
+      // Animate floating objects with reduced movement
       objects.forEach((object, index) => {
-        // Enhanced rotation
+        // Rotation
         object.rotation.x += object.userData.rotationSpeed.x;
         object.rotation.y += object.userData.rotationSpeed.y;
         object.rotation.z += object.userData.rotationSpeed.z;
 
-        // Enhanced floating motion
+        // Floating motion
         object.position.y =
           object.userData.originalY +
           Math.sin(time * object.userData.floatSpeed + index) *
             object.userData.floatRange;
 
-        // ENHANCED mouse interaction with stronger influence
+        // Reduced mouse interaction
         const mouseInfluence = object.userData.mouseInfluence;
         const targetX =
-          object.userData.originalX + mouseRef.current.x * mouseInfluence * 3;
+          object.userData.originalX + mouseRef.current.x * mouseInfluence * 1.5;
         const targetZ =
-          object.userData.originalZ + mouseRef.current.y * mouseInfluence * 2;
+          object.userData.originalZ + mouseRef.current.y * mouseInfluence * 1;
 
-        // Smooth interpolation for more fluid movement
-        object.position.x += (targetX - object.position.x) * 0.1;
-        object.position.z += (targetZ - object.position.z) * 0.1;
+        // Smooth interpolation
+        object.position.x += (targetX - object.position.x) * 0.08;
+        object.position.z += (targetZ - object.position.z) * 0.08;
 
         // Color shift based on mouse proximity
         const mouseDistance = Math.sqrt(
@@ -252,9 +253,9 @@ const Portfolio = () => {
 
         const colorShift = Math.max(0, 1 - mouseDistance / 15);
         object.material.emissive.setRGB(
-          object.userData.originalEmissive.r + colorShift * 0.3,
-          object.userData.originalEmissive.g + colorShift * 0.5,
-          object.userData.originalEmissive.b + colorShift * 0.2
+          object.userData.originalEmissive.r + colorShift * 0.2,
+          object.userData.originalEmissive.g + colorShift * 0.3,
+          object.userData.originalEmissive.b + colorShift * 0.1
         );
 
         // Update trails
@@ -275,26 +276,26 @@ const Portfolio = () => {
         }
       });
 
-      // Animate enhanced particle systems
+      // Animate particle systems
       particleSystems.forEach((particleSystem, layerIndex) => {
         const positions = particleSystem.geometry.attributes.position.array;
         const velocities = particleSystem.geometry.attributes.velocity.array;
 
         for (let i = 0; i < positions.length; i += 3) {
           // Mouse attraction effect
-          const dx = mouseRef.current.x * 20 - positions[i];
-          const dy = mouseRef.current.y * 20 - positions[i + 1];
+          const dx = mouseRef.current.x * 10 - positions[i];
+          const dy = mouseRef.current.y * 10 - positions[i + 1];
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < 10) {
-            velocities[i] += dx * 0.0001;
-            velocities[i + 1] += dy * 0.0001;
+            velocities[i] += dx * 0.00005;
+            velocities[i + 1] += dy * 0.00005;
           }
 
           // Apply velocity
           positions[i] += velocities[i];
           positions[i + 1] +=
-            velocities[i + 1] + Math.sin(time + positions[i]) * 0.01;
+            velocities[i + 1] + Math.sin(time + positions[i]) * 0.005;
           positions[i + 2] += velocities[i + 2];
 
           // Boundary wrapping
@@ -305,16 +306,16 @@ const Portfolio = () => {
         }
 
         particleSystem.geometry.attributes.position.needsUpdate = true;
-        particleSystem.rotation.y += 0.002 * (layerIndex + 1);
-        particleSystem.rotation.x += 0.001 * (layerIndex + 1);
+        particleSystem.rotation.y += 0.001 * (layerIndex + 1);
+        particleSystem.rotation.x += 0.0005 * (layerIndex + 1);
       });
 
-      // Enhanced camera movement with stronger mouse following
-      const targetCameraX = mouseRef.current.x * 2;
-      const targetCameraY = mouseRef.current.y * 2;
+      // Camera movement with reduced mouse following
+      const targetCameraX = mouseRef.current.x * 1;
+      const targetCameraY = mouseRef.current.y * 1;
 
-      camera.position.x += (targetCameraX - camera.position.x) * 0.08;
-      camera.position.y += (targetCameraY - camera.position.y) * 0.08;
+      camera.position.x += (targetCameraX - camera.position.x) * 0.05;
+      camera.position.y += (targetCameraY - camera.position.y) * 0.05;
       camera.lookAt(scene.position);
 
       renderer.render(scene, camera);
@@ -343,6 +344,7 @@ const Portfolio = () => {
     };
   }, []);
 
+  // ... [Rest of your component code remains exactly the same]
   // Smooth scroll to section
   const scrollToSection = (sectionId) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
